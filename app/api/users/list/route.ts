@@ -3,6 +3,9 @@ import jwt from 'jsonwebtoken'
 import connectDB from '@/lib/mongodb'
 import mongoose from 'mongoose'
 
+// Force dynamic rendering for this route
+export const dynamic = 'force-dynamic'
+
 // User Schema
 const userSchema = new mongoose.Schema({
   firstName: { type: String, required: true },
