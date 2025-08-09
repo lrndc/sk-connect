@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import Link from "next/link"
 import { ArrowLeft, Key } from "lucide-react"
+import { Suspense } from "react"
 import ResetPasswordForm from "./reset-password-form"
 
 export default function ResetPasswordPage() {
@@ -28,7 +29,14 @@ export default function ResetPasswordPage() {
             <CardDescription>Your new password must be at least 6 characters long</CardDescription>
           </CardHeader>
           <CardContent>
-            <ResetPasswordForm />
+            <Suspense fallback={
+              <div className="flex items-center justify-center py-8">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+                <span className="ml-2 text-gray-600">Loading...</span>
+              </div>
+            }>
+              <ResetPasswordForm />
+            </Suspense>
             <div className="mt-6 text-center">
               <p className="text-sm text-gray-600">
                 Remember your password?{" "}

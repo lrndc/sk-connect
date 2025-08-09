@@ -84,7 +84,7 @@ export default function BackendStatus() {
           <Alert>
             <CheckCircle className="h-4 w-4" />
             <AlertDescription>
-              Backend API is running on {process.env.NEXT_PUBLIC_BACKEND_URL || 'https://sk-connect-backend-production.up.railway.app'}
+              Backend API is running on {process.env.NEXT_PUBLIC_BACKEND_URL || 'https://sk-connect-backend-production-543c.up.railway.app'}
             </AlertDescription>
           </Alert>
         )}
@@ -111,7 +111,7 @@ export default function BackendStatus() {
             <p><strong>Backend Status:</strong></p>
             <p>Connected to Railway deployment:</p>
             <code className="block bg-muted p-2 rounded text-xs">
-              {process.env.NEXT_PUBLIC_BACKEND_URL || 'https://sk-connect-backend-production.up.railway.app'}
+              {process.env.NEXT_PUBLIC_BACKEND_URL || 'https://sk-connect-backend-production-543c.up.railway.app'}
             </code>
             <p className="text-amber-600">If disconnected, check your Railway deployment status.</p>
           </div>

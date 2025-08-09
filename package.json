@@ -13,7 +13,8 @@
     "deploy": "vercel --prod",
     "deploy:preview": "vercel",
     "deploy:check": "npm run lint && npm run build",
-    "vercel-build": "npm run build"
+    "vercel-build": "npm run build",
+    "postbuild": "echo 'Build completed successfully for Vercel deployment'"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
