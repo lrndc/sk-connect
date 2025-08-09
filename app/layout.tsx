@@ -6,7 +6,6 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { AuthProvider } from "@/lib/auth-context"
 import { Toaster } from "@/components/ui/toaster"
 import Navbar from "@/components/navbar"
-import ClientWrapper from "@/components/client-wrapper"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -25,20 +24,11 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className} suppressHydrationWarning>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
-          <ClientWrapper fallback={
-            <div className="min-h-screen bg-gray-50">
-              <div className="animate-pulse">
-                <div className="bg-white shadow-lg border-b h-16"></div>
-              </div>
-              <main>{children}</main>
-            </div>
-          }>
-            <AuthProvider>
-              <Navbar />
-              <main>{children}</main>
-              <Toaster />
-            </AuthProvider>
-          </ClientWrapper>
+          <AuthProvider>
+            <Navbar />
+            <main>{children}</main>
+            <Toaster />
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>
