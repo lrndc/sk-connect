@@ -60,24 +60,27 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     // Check if user is logged in on mount and verify token
     const initializeAuth = async () => {
-      const token = localStorage.getItem("token")
-      const userData = localStorage.getItem("user")
+      // Only access localStorage on the client side
+      if (typeof window !== 'undefined') {
+        const token = localStorage.getItem("token")
+        const userData = localStorage.getItem("user")
 
-      if (token && userData) {
-        try {
-          // Verify token with backend
-          const response = await apiClient.verifyToken()
-          if (response.valid) {
-            setUser(JSON.parse(userData))
-          } else {
-            // Token is invalid, clear localStorage
+        if (token && userData) {
+          try {
+            // Verify token with backend
+            const response = await apiClient.verifyToken()
+            if (response.valid) {
+              setUser(JSON.parse(userData))
+            } else {
+              // Token is invalid, clear localStorage
+              localStorage.removeItem("token")
+              localStorage.removeItem("user")
+            }
+          } catch (error) {
+            console.error("Token verification failed:", error)
             localStorage.removeItem("token")
             localStorage.removeItem("user")
           }
-        } catch (error) {
-          console.error("Token verification failed:", error)
-          localStorage.removeItem("token")
-          localStorage.removeItem("user")
         }
       }
       setLoading(false)
@@ -91,8 +94,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       // Login with email and password - backend returns user with their actual role
       const data = await apiClient.login(email, password)
 
-      localStorage.setItem("token", data.token)
-      localStorage.setItem("user", JSON.stringify(data.user))
+      if (typeof window !== 'undefined') {
+        localStorage.setItem("token", data.token)
+        localStorage.setItem("user", JSON.stringify(data.user))
+      }
       setUser(data.user)
 
       // Redirect based on actual user role from backend
@@ -111,8 +116,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       const data = await apiClient.register(userData)
 
-      localStorage.setItem("token", data.token)
-      localStorage.setItem("user", JSON.stringify(data.user))
+      if (typeof window !== 'undefined') {
+        localStorage.setItem("token", data.token)
+        localStorage.setItem("user", JSON.stringify(data.user))
+      }
       setUser(data.user)
 
       router.push("/")
@@ -129,7 +136,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       // Update user in state and localStorage
       const updatedUser = data.user
       setUser(updatedUser)
-      localStorage.setItem("user", JSON.stringify(updatedUser))
+      if (typeof window !== 'undefined') {
+        localStorage.setItem("user", JSON.stringify(updatedUser))
+      }
     } catch (error) {
       const apiError = error as ApiError
       throw new Error(apiError.data?.message || apiError.message || "Profile update failed")
@@ -146,8 +155,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   const logout = () => {
-    localStorage.removeItem("token")
-    localStorage.removeItem("user")
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem("token")
+      localStorage.removeItem("user")
+    }
     setUser(null)
     router.push("/")
   }
